@@ -72,11 +72,11 @@ export class NgStyle implements DoCheck {
   private _setStyle(nameAndUnit: string, value: string|number|null|undefined): void {
     const [name, unit] = nameAndUnit.split('.');
     value = value != null && unit ? `${value}${unit}` : value;
-
+    const flags = /^--.+/.test(name)? RendererStyleFlags2.DashCase : null;
     if (value != null) {
-      this._renderer.setStyle(this._ngEl.nativeElement, name, value as string);
+      this._renderer.setStyle(this._ngEl.nativeElement, name, value as string, flags);
     } else {
-      this._renderer.removeStyle(this._ngEl.nativeElement, name);
+      this._renderer.removeStyle(this._ngEl.nativeElement, name, flags);
     }
   }
 
